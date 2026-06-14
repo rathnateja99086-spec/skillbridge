@@ -1,9 +1,22 @@
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin (only once)
+// Initialize Firebase Admin only once
 if (!admin.apps.length) {
+  let credential;
+
+  if (process.env.FIREBASE_CREDENTIALS) {
+    // Production: credentials from environment variable (Railway)
+    const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+    credential = admin.credential.cert(serviceAccount);
+  } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+    // Local: credentials from file path
+    credential = admin.credential.applicationDefault();
+  } else {
+    throw new Error('No Firebase credentials found. Set FIREBASE_CREDENTIALS or GOOGLE_APPLICATION_CREDENTIALS.');
+  }
+
   admin.initializeApp({
-    credential: admin.credential.applicationDefault(),
+    credential,
     projectId: process.env.FIREBASE_PROJECT_ID
   });
 }
