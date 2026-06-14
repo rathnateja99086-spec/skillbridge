@@ -14,7 +14,6 @@ export default function Landing() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
   const [confirmResult, setConfirmResult] = useState(null);
   const [otpSent, setOtpSent] = useState(false);
