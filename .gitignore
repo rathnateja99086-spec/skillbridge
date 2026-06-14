@@ -1,0 +1,13 @@
+# Backend
+backend/node_modules/
+backend/.env
+backend/serviceAccountKey.json
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+frontend/.env
+
+# General
+.DS_Store
+*.log
