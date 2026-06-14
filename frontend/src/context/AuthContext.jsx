@@ -24,7 +24,8 @@ export const AuthProvider = ({ children }) => {
 
   const apiCall = async (url, options = {}) => {
     const token = await getToken();
-    return fetch(url, {
+    const baseURL = process.env.REACT_APP_API_URL || '';
+    return fetch(`${baseURL}${url}`, {
       ...options,
       headers: {
         ...options.headers,
@@ -32,7 +33,6 @@ export const AuthProvider = ({ children }) => {
       }
     });
   };
-
   return (
     <AuthContext.Provider value={{ user, loading, getToken, apiCall }}>
       {!loading && children}
