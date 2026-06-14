@@ -3,20 +3,15 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
-  signInWithPhoneNumber,
-  RecaptchaVerifier,
   updateProfile
 } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase';
 
 export default function Landing() {
-  const [tab, setTab] = useState('login'); // login | signup | phone
+  const [tab, setTab] = useState('login'); // login | signup 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
-  const [otp, setOtp] = useState('');
-  const [confirmResult, setConfirmResult] = useState(null);
-  const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -48,31 +43,6 @@ export default function Landing() {
     setLoading(false);
   };
 
-  const sendOTP = async () => {
-    if (!phone.startsWith('+')) { setError('Enter phone with country code e.g. +91XXXXXXXXXX'); return; }
-    setLoading(true); clearError();
-    try {
-      if (!window.recaptchaVerifier) {
-        window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
-      }
-      const result = await signInWithPhoneNumber(auth, phone, window.recaptchaVerifier);
-      setConfirmResult(result);
-      setOtpSent(true);
-    } catch (err) {
-      setError(getFriendlyError(err.code));
-    }
-    setLoading(false);
-  };
-
-  const verifyOTP = async () => {
-    setLoading(true); clearError();
-    try {
-      await confirmResult.confirm(otp);
-    } catch (err) {
-      setError('Invalid OTP. Please try again.');
-    }
-    setLoading(false);
-  };
 
   const getFriendlyError = (code) => {
     const map = {
