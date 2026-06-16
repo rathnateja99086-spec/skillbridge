@@ -7,7 +7,7 @@ backend/serviceAccountKey.json
 frontend/node_modules/
 frontend/build/
 frontend/.env
-
+frontend/src/firebase.js
 # General
 .DS_Store
 *.log
